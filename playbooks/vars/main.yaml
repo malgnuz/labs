@@ -1,0 +1,13 @@
+required_rpms:
+  - libvirt
+  - libvirt-daemon-driver-qemu
+  - qemu-kvm
+  - firewalld
+  - wget
+  - git
+
+required_svcs:
+  - libvirtd
+  - firewalld
+
+kcli_script: "https://raw.githubusercontent.com/karmab/kcli/main/install.sh"

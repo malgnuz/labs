@@ -1,0 +1,30 @@
+---
+- name: Install and setup kcli
+  hosts: hypervisor
+  remote_user: lab-user
+  become: yes
+  vars_files:
+    - vars/main.yaml
+  tasks:
+    - name: 'Install requirements'
+      dnf:
+        name: "{{ required_rpms }}"
+        state: latest
+
+    - name: 'Enable required services'
+      systemd:
+        state: started
+        enabled: true
+        name: "{{ item }}"
+      loop: "{{ required_svcs }}"
+
+
+    - name: 'Download kcli installation script'
+      become: false
+      local_action:
+        module: get_url
+        url: "{{ kcli_script }}"
+        dest: /tmp/install_kcli.sh
+
+    - name: 'Install kcli'
+      script: /tmp/install_kcli.sh
