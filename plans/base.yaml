@@ -1,0 +1,24 @@
+parameters:
+ image: centos9stream
+ numcpus: 4
+ memory: 2048
+ domain: example.com
+
+vm01:
+ template: {{ image }}
+ memory: {{ memory }}
+ numcpus: {{ numcpus }}
+ domain: {{ domain }}
+ reservedns: True
+ rhnregister: False
+ disks:
+  - size: 15
+ nets:
+  - default
+ cmds:
+  - echo 'test' | passwd --stdin root
+  - echo 'test' | passwd --stdin cloud-user
+ keys:
+   - ''
+ pool: default
+ nested: False
