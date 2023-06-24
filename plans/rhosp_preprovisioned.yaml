@@ -1,0 +1,150 @@
+parameters:
+ admin_password: redhat
+
+rhosp16-prov:
+ type: network
+ cidr: 10.22.0.0/16
+ dhcp: False
+
+rhosp16-ext:
+ type: network
+ cidr: 10.23.0.0/16
+ dhcp: True
+
+rhosp16-undercloud:
+ template: rhel-8.4.qcow2
+ memory:  16384
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.23
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.23
+    mask: 255.255.0.0
+ pool: default
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ nested: False
+
+rhosp16-controller0:
+ template: rhel-8.4.qcow2
+ memory: 8192
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.24
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.24
+    mask: 255.255.0.0
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ pool: default
+ nested: false
+
+rhosp16-controller1:
+ template: rhel-8.4.qcow2
+ memory: 8192
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.25
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.25
+    mask: 255.255.0.0
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ pool: default
+ nested: false
+
+rhosp16-controller2:
+ template: rhel-8.4.qcow2
+ memory: 8192
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.26
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.26
+    mask: 255.255.0.0
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ pool: default
+ nested: false
+
+rhosp16-compute1:
+ template: rhel-8.4.qcow2
+ memory: 8192
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.27
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.27
+    mask: 255.255.0.0
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ pool: default
+ nested: false
+
+rhosp16-compute2:
+ template: rhel-8.4.qcow2
+ memory: 8192
+ numcpus: 4
+ domain: rhosp.com
+ reservedns: true
+ disks:
+  - size: 100
+ nets:
+  - name: rhosp16-ext
+    ip: 10.23.0.28
+    mask: 255.255.0.0
+    gateway: 10.23.0.1
+    dns: 10.23.0.1
+  - name: rhosp16-prov
+    ip: 10.22.0.28
+    mask: 255.255.0.0
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+ pool: default
+ nested: false
