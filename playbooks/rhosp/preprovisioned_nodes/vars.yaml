@@ -1,0 +1,8 @@
+redhat_release: '8.4'
+required_repositories:
+  - rhel-8-for-x86_64-baseos-eus-rpms
+  - rhel-8-for-x86_64-appstream-eus-rpms
+  - rhel-8-for-x86_64-highavailability-eus-rpms
+  - ansible-2.9-for-rhel-8-x86_64-rpms
+  - openstack-16.2-for-rhel-8-x86_64-rpms
+  - fast-datapath-for-rhel-8-x86_64-rpms
