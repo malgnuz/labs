@@ -1,0 +1,78 @@
+# ansible-playbook 02_prerequisites.yaml -i inventory -u <REMOTE_USER>
+---
+- name: 'Setting the prerequisites for RHOSP deployment with preprovisioned nodes'
+  hosts: all
+  become: true
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: 'Set Red Hat Release'
+      community.general.rhsm_release:
+        release: "{{ redhat_release }}"
+
+    - name: 'Enable required repositories'
+      community.general.rhsm_repository:
+        name: "{{ item }}"
+        state: enabled
+      loop:
+        - "{{ required_repositories }}"
+
+    - name: 'Create stack user'
+      ansible.builtin.user:
+        name: stack
+        groups: wheel
+
+    - name: 'Disable password requirements for the stack user'
+      community.general.sudoers:
+        name: stack
+        user: stack
+        commands: ALL
+
+    - name: 'Create SSH directory in the undercloud'
+      file:
+        path: /home/stack/.ssh
+        state: directory
+        owner: stack
+      when: inventory_hostname in groups['undercloud']
+
+    - name: 'Generate SSH key pair for stack'
+      community.crypto.openssh_keypair:
+        owner: stack
+        path: /home/stack/.ssh/id_rsa
+      when: inventory_hostname in groups['undercloud']
+
+    - name: 'Fetch SSH key pair for stack'
+      ansible.builtin.fetch:
+        src: /home/stack/.ssh/id_rsa.pub
+        dest: /tmp/id_rsa.pub
+        flat: yes
+      when: inventory_hostname in groups['undercloud']
+
+    - name: 'Copy SSH keys to all nodes'
+      ansible.posix.authorized_key:
+        user: stack
+        state: present
+        key: "{{ lookup('file', '/tmp/id_rsa.pub') }}"
+      when: inventory_hostname not in groups['undercloud']
+
+    - name: 'Disable old container-tools module'
+      ansible.builtin.shell: 'dnf module disable -y container-tools:rhel8'
+
+    - name: 'Enable container-tools module version 3.0'
+      ansible.builtin.shell: 'dnf module enable -y container-tools:3.0'
+
+    - name: 'Install pacemaker'
+      ansible.builtin.dnf:
+        name: pacemaker
+        state: latest
+      when: inventory_hostname in groups['controllers']
+
+    - name: 'Update the system'
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+      notify: Reboot
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
