@@ -1,12 +1,14 @@
 ---
 - name: 'Subscribing systems into Red Hat CDN'
   hosts: all
+  become: true
   tasks:
     - name: 'Perform registration'
       community.general.redhat_subscription:
         state: present
         username: "{{ rh_user }}"
         password: "{{ rh_pass }}"
+        
     - name: 'Disable all RHSM repositories'
       community.general.rhsm_repository:
         name: '*'
