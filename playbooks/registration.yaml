@@ -1,7 +1,10 @@
+#ansible-playbook -i inventory registration.yaml -u <remote_user> --ask-vault-pass
 ---
 - name: 'Subscribing systems into Red Hat CDN'
   hosts: all
   become: true
+  vars_files:
+    - vars.yaml ## Using vault file
   tasks:
     - name: 'Perform registration'
       community.general.redhat_subscription:
