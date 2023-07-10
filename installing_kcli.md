@@ -25,7 +25,7 @@ systemctl enable firewalld --now
 3. Managing Virtual Machines through Cockpit
 
 ```
-dnf -y install cockpit-machines
+dnf -y install cockpit-machines && reboot
 ```
 
 4. Installing KCLI
