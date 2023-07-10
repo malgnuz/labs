@@ -34,4 +34,10 @@ dnf -y install cockpit-machines && reboot
 curl https://raw.githubusercontent.com/karmab/kcli/main/install.sh | sudo bash
 ```
 
-5. 
+5. Configuring KCLI
+
+```
+kcli create host kvm -H 127.0.0.1 local
+kcli create pool -p /var/lib/libvirt/images default
+setfacl -m u:$(id -un):rwx /var/lib/libvirt/images
+```
