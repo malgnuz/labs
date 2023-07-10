@@ -41,3 +41,18 @@ kcli create host kvm -H 127.0.0.1 local
 kcli create pool -p /var/lib/libvirt/images default
 setfacl -m u:$(id -un):rwx /var/lib/libvirt/images
 ```
+
+7. Starting with KCLI
+
+List the Cloud images available:
+
+```
+kcli list available-images
+```
+
+Download a particular Cloud image:
+
+```
+kcli download image <IMAGE>
+
+```
