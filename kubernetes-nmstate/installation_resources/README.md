@@ -12,6 +12,6 @@
 
 `oc create -f nmstate-subscription.yaml`
 
-## Create an instance of Hyperconverged 
+## Create an instance of NMState
 
 `oc create -f nmstate-instance.ymal`
