@@ -8,7 +8,7 @@ oc new-project openstack
 
 2. Get the **osp-director-operator-bundle** from the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/search)
 
-3. (Download)[https://console.redhat.com/openshift/downloads] the **opm** tool.
+3. [Download](https://console.redhat.com/openshift/downloads) the **opm** tool.
 
 4. Create an index image:
 
