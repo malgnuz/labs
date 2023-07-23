@@ -2,7 +2,9 @@
 
 1. Create the **openstack** namespace
 
-`oc new-project openstack`
+```
+oc new-project openstack
+```
 
 2. Get the **osp-director-operator-bundle** from the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/search)
 
@@ -23,4 +25,3 @@ podman push ${INDEX_IMG}
 ```
 
 #PENDING#
-
