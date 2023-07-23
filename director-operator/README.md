@@ -10,11 +10,19 @@ oc new-project openstack
 
 3. [Download](https://console.redhat.com/openshift/downloads) the **opm** tool.
 
-4. Create an index image:
+4. Login at the source and destination registries:
 
 ```
-BUNDLE_IMG="registry.redhat.io/rhosp-rhel8/osp-director-operator-bundle"
-INDEX_IMG="quay.io/maugarci/osp-director-operator-index:1.3.0-11"
+podman login registry.redhat.io
+podman login quay.io/maugarci
+```
+
+5. Create an index image:
+
+```
+TAG="1.3.0-11"
+BUNDLE_IMG="registry.redhat.io/rhosp-rhel8/osp-director-operator-bundle:${TAG}"
+INDEX_IMG="quay.io/maugarci/osp-director-operator-index:${TAG}"
 opm index add --bundles ${BUNDLE_IMG} --tag ${INDEX_IMG} -u podman --pull-tool podman
 ```
 
