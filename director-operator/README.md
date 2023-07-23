@@ -13,8 +13,8 @@ oc new-project openstack
 4. Create an index image:
 
 ```
-BUNDLE_IMG="registry.redhat.io/rhosp-rhel8/osp-director-operator-bundle@sha256:c19099ac3340d364307a43e0ae2be949a588fefe8fcb17663049342e7587f055"
-INDEX_IMG="quay.io/<account>/osp-director-operator-index:x.y.z-a"
+BUNDLE_IMG="registry.redhat.io/rhosp-rhel8/osp-director-operator-bundle"
+INDEX_IMG="quay.io/maugarci/osp-director-operator-index:1.3.0-11"
 opm index add --bundles ${BUNDLE_IMG} --tag ${INDEX_IMG} -u podman --pull-tool podman
 ```
 
