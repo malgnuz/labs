@@ -43,7 +43,11 @@ cp /var/run/containers/0/auth.json .auth.json
 6.2 Create the secret object into **openstack** namespace:
 
 ```
-oc create secret generic secret-registry -n openstack --from-file=.dockerconfigjson=.auth.json --type=kubernetes.io/dockerconfigjson
+oc create secret \
+generic secret-registry \
+-n openstack \
+--from-file=.dockerconfigjson=.auth.json \
+--type=kubernetes.io/dockerconfigjson
 ```
 
 7. Create the [CatalogSource](director-catalogsource.yaml) from the Index image:
