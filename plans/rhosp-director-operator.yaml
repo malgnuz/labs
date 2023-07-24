@@ -1,0 +1,102 @@
+parameters:
+ admin_password: redhat
+
+external:
+ type: network
+ cidr: 10.12.0.0/24
+ dhcp: True
+
+bastion:
+ template: rhel8
+ memory:  4096
+ numcpus: 4
+ domain: example.com
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    ip: 10.12.0.10
+    mask: 255.255.255.0
+    gateway: 10.12.0.1
+    dns: 10.12.0.1
+ pool: default
+ cmds:
+  - echo 'redhat' | passwd --stdin root
+  - echo 'redhat' | passwd --stdin cloud-user
+  - echo bastion.example.com > /etc/hostname
+  - echo 10.12.0.10 bastion.example.com bastion >> /etc/hosts
+  - echo GATEWAY=10.12.0.1 >> /etc/sysconfig/network
+  - echo nameserver 10.12.0.1 >> /etc/resolv.conf
+ keys:
+   - ''
+ nested: False
+
+master0:
+ iso: discovery_image_mylab.iso
+ cloudinit: False
+ memory: 16384
+ numcpus: 8
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    mac: aa:bb:cc:dd:ee:01
+ pool: ssd
+ start: False
+ nested: False
+
+master1:
+ iso: discovery_image_mylab.iso
+ cloudinit: False
+ memory: 16384
+ numcpus: 8
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    mac: aa:bb:cc:dd:ee:02
+ pool: ssd
+ start: False
+ nested: False
+
+master2:
+ iso: discovery_image_mylab.iso
+ cloudinit: False
+ memory: 16384
+ numcpus: 8
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    mac: aa:bb:cc:dd:ee:03
+ pool: ssd
+ start: False
+ nested: False
+
+worker0:
+ iso: discovery_image_mylab.iso
+ cloudinit: False
+ memory: 16384
+ numcpus: 8
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    mac: aa:bb:cc:dd:ee:04
+ pool: ssd
+ start: False
+ nested: True
+
+worker1:
+ iso: discovery_image_mylab.iso
+ cloudinit: False
+ memory: 16384
+ numcpus: 8
+ disks:
+  - size: 150
+ nets:
+  - name: external
+    mac: aa:bb:cc:dd:ee:05
+ pool: ssd
+ start: False
+ nested: True
