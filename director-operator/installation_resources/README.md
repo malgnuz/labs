@@ -47,21 +47,21 @@ INDEX_IMG="quay.io/maugarci/osp-director-operator-index:${TAG}"
 opm index add --bundles ${BUNDLE_IMG} --tag ${INDEX_IMG} -u podman --pull-tool podman
 ```
 
-5. Push the index image to a Registry:
+6. Push the index image to a Registry:
 
 ```
 podman push ${INDEX_IMG}
 ```
 
-6. Create a secret to authenticate OpenShift against Quay
+7. Create a secret to authenticate OpenShift against Quay
 
-6.1 Copy the authentication file into a new file:
+7.1 Copy the authentication file into a new file:
 
 ```
 cp /var/run/containers/0/auth.json .auth.json
 ```
 
-6.2 Create the secret object into **openstack** namespace:
+7.2 Create the secret object into **openstack** namespace:
 
 ```
 oc create secret \
@@ -71,25 +71,25 @@ generic secret-registry \
 --type=kubernetes.io/dockerconfigjson
 ```
 
-7. Create the [CatalogSource](director-catalogsource.yaml) from the Index image:
+8. Create the [CatalogSource](director-catalogsource.yaml) from the Index image:
 
 ```
 oc create -f director-catalogsource.yaml
 ```
 
-8. Create the [OperatorGroup](director-operatorgroup.yaml):  
+9. Create the [OperatorGroup](director-operatorgroup.yaml):  
 
 ```
 oc create -f director-operatorgroup.yaml
 ```
 
-9. Create the [Subscription](director-subscription.yaml):
+10. Create the [Subscription](director-subscription.yaml):
 
 ```
 oc create -f director-subscription.yaml
 ```
 
-10. Verify the Operators installed into **openstack** namespace:
+11. Verify the Operators installed into **openstack** namespace:
 
 ```
 oc get operators
