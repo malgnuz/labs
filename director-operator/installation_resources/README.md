@@ -8,7 +8,28 @@ oc new-project openstack
 
 2. Get the **osp-director-operator-bundle** from the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/search)
 
-3. [Download](https://console.redhat.com/openshift/downloads) the **opm** tool.
+3. Install the **opm** tool:
+
+3.1 [Download](https://console.redhat.com/openshift/downloads) the tool.
+
+3.2 Decompress the tool:
+
+```
+gunzip <FILE>.gz
+tar xvf <FILE>.tar
+```
+
+3.3 Allow execution
+
+```
+chmod u+x opm
+```
+
+3.4 Copy the binary to **/usr/bin**:
+
+```
+cp opm /usr/bin
+```
 
 4. Login at the source and destination registries:
 
