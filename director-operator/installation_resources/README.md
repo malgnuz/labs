@@ -43,7 +43,7 @@ podman login quay.io/maugarci
 ```
 TAG="1.3.0-11"
 BUNDLE_IMG="registry.redhat.io/rhosp-rhel8/osp-director-operator-bundle:${TAG}"
-INDEX_IMG="quay.io/maugarci/osp-director-operator-index:${TAG}"
+INDEX_IMG="quay.io/<REPOSITORY>/osp-director-operator-index:${TAG}"
 opm index add --bundles ${BUNDLE_IMG} --tag ${INDEX_IMG} -u podman --pull-tool podman
 ```
 
