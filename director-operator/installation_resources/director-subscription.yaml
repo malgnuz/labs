@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: osp-director-operator-subscription
+  namespace: openstack
+spec:
+  config:
+    env:
+    - name: WATCH_NAMESPACE
+      value: openstack,openshift-machine-api,openshift-sriov-network-operator
+  source: osp-director-operator-index
+  sourceNamespace: openstack
+  name: osp-director-operator
