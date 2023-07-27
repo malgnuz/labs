@@ -1,0 +1,31 @@
+imagebuilder:
+ template: rhel8
+ memory: 8192
+ numcpus: 2
+ domain: example.com
+ reservedns: True
+ rhnregister: False
+ disks:
+  - size: 150
+ nets:
+  - default
+ cmds:
+  - echo '<PASSWORD>' | passwd --stdin root
+ keys:
+   - '<SSH_PUBLIC_KEY>'
+ pool: default
+ nested: False
+
+rhelclient1:
+ iso: rhel8.6.iso
+ cloudinit: False
+ memory: 2048
+ numcpus: 1
+ disks:
+  - size: 150
+ nets:
+  - name: default
+ tpm: True
+ pool: default
+ start: False
+ nested: False
