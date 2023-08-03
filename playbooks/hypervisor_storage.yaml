@@ -1,0 +1,42 @@
+# A playbook to create VGs and LVs in the hypervisor to use the storage for Libvirt storage pools
+---
+- name: 'Prepare the storage for the hypervisor'
+  hosts: localhost
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: 'Create the volgroup'
+      lvg:
+        vg: "{{ item.name }}"
+        pvs: "{{ item.pvs }}"
+      loop: "{{ vgs }}"
+    
+    - name: 'Create the logical volumes'
+      lvol:
+        vg: "{{ item.vg }}"
+        lv: "{{ item.name }}"
+        size: "{{ item.size }}"
+      loop: "{{ lvs }}"
+      ignore_errors: true
+        
+    - name: 'Create the filesystems'
+      filesystem:
+        fstype: xfs
+        dev: "{{ item }}"
+      loop: "{{ filesystems }}"
+
+    - name: 'Ensure directories exist'
+      file:
+        path: "{{ item }}" 
+        state: directory
+      loop: "{{ directories }}"
+    
+    - name: 'Mount the filesystems'
+      mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src}}"
+        state: mounted
+        fstype: xfs
+      loop:
+        - { path: "{{ directories[0] }}", src: "{{ filesystems[0] }}" }
+        - { path: "{{ directories[1] }}", src: "{{ filesystems[1] }}" }
