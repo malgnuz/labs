@@ -11,3 +11,39 @@ required_svcs:
   - firewalld
 
 kcli_script: "https://raw.githubusercontent.com/karmab/kcli/main/install.sh"
+
+vgs:
+  - name: vghdd
+    pvs:
+      - "/dev/sdc"
+      - "/dev/sdd"
+      - "/dev/sde"
+      - "/dev/sdf"
+      - "/dev/sdg"
+      - "/dev/sdh"
+      - "/dev/sdi"
+      - "/dev/sdj"
+      - "/dev/sdk"
+      - "/dev/sdl"
+      - "/dev/sdm"
+      - "/dev/sdn"
+  - name: vgnvme
+    pvs:
+      - "/dev/nvme0n1"
+      - "/dev/nvme1n1"
+lvs:
+  - name: "lvhdd"
+    vg: "{{ vgs[0].name }}"
+    size: "30%FREE"
+
+  - name: "lvnvme"
+    vg: "{{ vgs[1].name }}"
+    size: "30%FREE"
+
+filesystems:
+  - "/dev/mapper/{{ vgs[0].name }}-{{ lvs[0].name }}"
+  - "/dev/mapper/{{ vgs[1].name }}-{{ lvs[1].name }}"
+    
+directories:
+  - "/var/lib/libvirt/images"
+  - "/var/lib/libvirt/nvme"
