@@ -3,7 +3,7 @@
 - name: 'Prepare the storage for the hypervisor'
   hosts: localhost
   vars_files:
-    - vars.yml
+    - main.yml
   tasks:
     - name: 'Create the volgroup'
       lvg:
