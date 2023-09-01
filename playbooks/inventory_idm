@@ -1,0 +1,8 @@
+[ipaserver]
+idm.DOMAIN
+
+[ipaserver:vars]
+ipaserver_domain=DOMAIN
+ipaserver_realm=REALM
+ipaserver_setup_dns=yes
+ipaserver_auto_forwarders=yes

@@ -1,0 +1,42 @@
+---
+- name: 'Ensure IdM server met the prerequisites for installing it'
+  hosts: all
+  become: true
+  vars_files:
+    - vars/idm.yaml
+    - vars/idm-vault.yaml
+  tasks:
+    - name: 'Register the server'
+      redhat_subscription:
+        state: present
+        username: "{{ rhcp_username }}"
+        password: "{{ rhcp_password }}"
+
+    - name: 'Disable all repositories'
+      rhsm_repository:
+        name: '*'
+        state: disabled
+
+    - name: Enable BaseOS and AppStreams repositories
+      rhsm_repository:
+        name: "{{ repositories }}"
+
+    - name: 'Install required rpms'
+      dnf:
+        name: "{{ required_rpms }}"
+        state: latest
+
+    - name: 'Ensure firewalld is enabled and started'
+      systemd:
+        state: started
+        name: firewalld
+        enabled: yes
+
+    - name: 'Ensure firewalld rules are set'
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+      loop: "{{ allowed_services }}"
+      tags: firewall
+

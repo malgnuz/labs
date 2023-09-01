@@ -1,0 +1,19 @@
+repositories:
+  - rhel-8-for-x86_64-appstream-rpms
+  - rhel-8-for-x86_64-baseos-rpms
+  - ansible-2.9-for-rhel-8-x86_64-rpms
+
+required_rpms:
+  - ansible
+  - ansible-freeipa
+  - firewalld
+
+allowed_services:
+  - http
+  - https
+  - ntp
+  - freeipa-ldap
+  - freeipa-ldaps
+  - dns
+  - kerberos
+  - kpasswd
