@@ -1,5 +1,15 @@
 parameters:
+ undercloud:
+   vcpus: 2
+   ram: 8192
+ controller:
+   vcpus: 2
+   ram: 4096
+ pool: virtualdisks
  admin_password: redhat
+ image: rhel-8.4.qcow2
+ vcpus: 1
+ ram: 2048
 
 rhosp16-prov:
  type: network
@@ -12,9 +22,9 @@ rhosp16-ext:
  dhcp: True
 
 rhosp16-undercloud:
- template: rhel-8.4.qcow2
- memory:  16384
- numcpus: 4
+ template: {{ image }}
+ memory:  {{ undercloud.ram }}
+ numcpus: {{ undercloud.vcpus }}
  domain: rhosp.com
  reservedns: true
  disks:
@@ -28,16 +38,16 @@ rhosp16-undercloud:
   - name: rhosp16-prov
     ip: 10.22.0.23
     mask: 255.255.0.0
- pool: default
+ pool: {{ pool }}
  cmds:
   - echo 'redhat' | passwd --stdin root
   - echo 'redhat' | passwd --stdin cloud-user
  nested: False
 
 rhosp16-controller0:
- template: rhel-8.4.qcow2
- memory: 8192
- numcpus: 4
+ template: {{ image }}
+ memory: {{ controller.ram }}
+ numcpus: {{ controller.vcpus }}
  domain: rhosp.com
  reservedns: true
  disks:
@@ -54,13 +64,13 @@ rhosp16-controller0:
  cmds:
   - echo 'redhat' | passwd --stdin root
   - echo 'redhat' | passwd --stdin cloud-user
- pool: default
+ pool: {{ pool }}
  nested: false
 
 rhosp16-controller1:
- template: rhel-8.4.qcow2
- memory: 8192
- numcpus: 4
+ template: {{ image }}
+ memory: {{ controller.ram }}
+ numcpus: {{ controller.vcpus }}
  domain: rhosp.com
  reservedns: true
  disks:
@@ -77,13 +87,13 @@ rhosp16-controller1:
  cmds:
   - echo 'redhat' | passwd --stdin root
   - echo 'redhat' | passwd --stdin cloud-user
- pool: default
+ pool: {{ pool }}
  nested: false
 
 rhosp16-controller2:
- template: rhel-8.4.qcow2
- memory: 8192
- numcpus: 4
+ template: {{ image }}
+ memory: {{ controller.ram }}
+ numcpus: {{ controller.vcpus }}
  domain: rhosp.com
  reservedns: true
  disks:
@@ -100,13 +110,13 @@ rhosp16-controller2:
  cmds:
   - echo 'redhat' | passwd --stdin root
   - echo 'redhat' | passwd --stdin cloud-user
- pool: default
+ pool: {{ pool }}
  nested: false
 
 rhosp16-compute1:
- template: rhel-8.4.qcow2
- memory: 8192
- numcpus: 4
+ template: {{ image }}
+ memory: {{ controller.ram }}
+ numcpus: {{ controller.vcpus }}
  domain: rhosp.com
  reservedns: true
  disks:
@@ -123,28 +133,5 @@ rhosp16-compute1:
  cmds:
   - echo 'redhat' | passwd --stdin root
   - echo 'redhat' | passwd --stdin cloud-user
- pool: default
- nested: false
-
-rhosp16-compute2:
- template: rhel-8.4.qcow2
- memory: 8192
- numcpus: 4
- domain: rhosp.com
- reservedns: true
- disks:
-  - size: 100
- nets:
-  - name: rhosp16-ext
-    ip: 10.23.0.28
-    mask: 255.255.0.0
-    gateway: 10.23.0.1
-    dns: 10.23.0.1
-  - name: rhosp16-prov
-    ip: 10.22.0.28
-    mask: 255.255.0.0
- cmds:
-  - echo 'redhat' | passwd --stdin root
-  - echo 'redhat' | passwd --stdin cloud-user
- pool: default
+ pool: {{ pool }}
  nested: false
