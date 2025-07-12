@@ -1,10 +1,8 @@
 # ansible-playbook 03_undercloud.yaml -i inventory -u <REMOTE_USER>
 ---
 - name: 'Deploying the undercloud'
-  hosts: undercloud
   become: true
-  vars_files:
-    - vars.yaml
+  hosts: undercloud
   tasks:
     - name: 'Install director packages'
       ansible.builtin.dnf:
@@ -12,7 +10,8 @@
         state: latest
 
     - name: 'Create container image preparation file'
+      become_user: stack
       ansible.builtin.shell: |
         openstack tripleo container image prepare default \
         --local-push-destination \
-        --output-env-file containers-prepare-parameter.yaml
+        --output-env-file /home/stack/containers-prepare-parameter.yaml
