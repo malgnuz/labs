@@ -1,6 +1,6 @@
 # ansible-playbook 03_undercloud.yaml -i inventory -u <REMOTE_USER>
 ---
-- name: 'Deployinh the undercloud'
+- name: 'Deploying the undercloud'
   hosts: undercloud
   become: true
   vars_files:
